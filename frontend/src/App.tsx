@@ -23,6 +23,22 @@ function App() {
         <Card  title="First Tweet" type="twitter" link="https://twitter.com/dj_usr/status/1965862374726045708"/>
 
         <Card title="Dave Plummer" type='youtube' link='https://youtu.be/KVYup3Qwh8Q?si=1H0MEULoNE27GRwn'/>  
+
+        <Card  title="First Tweet" type="twitter" link="https://twitter.com/dj_usr/status/1965862374726045708"/>
+
+        <Card title="Dave Plummer" type='youtube' link='https://youtu.be/KVYup3Qwh8Q?si=1H0MEULoNE27GRwn'/>  
+
+        <Card  title="First Tweet" type="twitter" link="https://twitter.com/dj_usr/status/1965862374726045708"/>
+
+        <Card title="Dave Plummer" type='youtube' link='https://youtu.be/KVYup3Qwh8Q?si=1H0MEULoNE27GRwn'/>  
+
+        <Card  title="First Tweet" type="twitter" link="https://twitter.com/dj_usr/status/1965862374726045708"/>
+
+        <Card title="Dave Plummer" type='youtube' link='https://youtu.be/KVYup3Qwh8Q?si=1H0MEULoNE27GRwn'/>  
+
+        <Card  title="First Tweet" type="twitter" link="https://twitter.com/dj_usr/status/1965862374726045708"/>
+
+        <Card title="Dave Plummer" type='youtube' link='https://youtu.be/KVYup3Qwh8Q?si=1H0MEULoNE27GRwn'/>  
       </div>
     </div>
     </div>
