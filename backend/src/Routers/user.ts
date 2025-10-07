@@ -83,10 +83,10 @@ userRouter.post("/signin", async (req, res) => {
 })
 
 userRouter.post("/content", userMiddleware, async (req, res) => {
-    const { title, link, tags } = req.body;
+    const { title, link, description, tags } = req.body;
 
     const user = Number(req.userId);
-
+// description
     const content = await client.content.create({
         data: {
             title,

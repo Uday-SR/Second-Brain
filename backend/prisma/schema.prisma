@@ -19,6 +19,7 @@ model Content {
   id  Int @default(autoincrement()) @id
   title String
   link String
+  description String
   tags String
   userId Int
   user User @relation(fields: [userId], references: [id])

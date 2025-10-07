@@ -11,10 +11,9 @@ interface CardProps {
 
 export function Card({ title, link, description, type }: CardProps) {
     return (
-        <div className="group relative mx-2 my-4 w-40 h-60 rounded-md bg-white border border-gray-200 transition-all duration-300
-                        hover:w-80 hover:h-96 hover:bg-emerald-300 hover:z-50 hover:shadow-xl flex flex-col">
+        <div className="group relative mx-2 my-4 w-40 h-60 rounded-md bg-white border border-gray-200 transition-all duration-200
+                        hover:w-80 hover:h-90 hover:bg-emerald-300 hover:z-5 hover:shadow-xl flex flex-col overflow-visible z-1">
             
-            {/* Header (static) */}
             <div className="flex justify-between items-center p-4 border-b border-gray-200">
                 <div className="text-gray-500 flex space-x-2 font-normal truncate">
                     <DocIcon />

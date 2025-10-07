@@ -10,22 +10,23 @@ import { Setting } from "../icons/Setting"
 import { Help } from "../icons/Help"
 import { useState } from "react"
 
-export function Sidebar() {
-    const [expanded, isExpanded] = useState("");
+export function Sidebar({expanded, toggleSidebar}) {
     return (
-        <div className="h-screen bg-white w-76 border-r left-0 top-0 fixed">
+        <div className={`h-screen bg-white border-r left-0 top-0 fixed ${expanded ? "w-60" : "w-21"}`}>
             <div className="flex">
-                <div>
-                    <Logo/>
+                <div className="">
+                    <Logo />
                 </div>
 
-                <div className="font-medium mt-10 text-2xl italic font-serif">
-                    ReMind
-                </div>
+                {expanded && (
+                    <div className="font-medium mt-10 text-2xl italic font-serif">
+                        ReMind
+                    </div>
+                )}
 
-                <div className="ml-15 mt-10 hover:text-cyan-300 ">
-                    {expanded ? <RightArrow/> : <LeftArrow/>}
-                </div>
+                <button onClick={toggleSidebar} className="ml-8 mt-2 hover:text-cyan-300 ">
+                    {expanded ? <LeftArrow/> : <RightArrow/>}
+                </button>
 
             </div>
 
@@ -33,37 +34,37 @@ export function Sidebar() {
                 <ul className="text-stone-500">
                     <li className="py-2 flex pb-5">
                         <div><TweetIcon/></div>
-                        <div className="mt-1">
+                        {expanded && <div className="mt-1">
                             Tweets
-                        </div>    
+                        </div> }   
                     </li>
 
                     <li className="py-2 flex pb-5">
-                        <YoutubeIcon/>
-                        <div className="mt-1">
+                        <div><YoutubeIcon/></div>
+                        {expanded && <div className="mt-1 ">
                             Videos
-                        </div>    
+                        </div> }    
                     </li>
 
-                    <li className="py-2 flex pb-5">
-                        <div className="text-black pt-2 pr-4"><DocIcon/></div>
-                        <div className="mt-1">
+                    <li className="py-1 flex pb-5">
+                        <div className="text-black pt-2 pr-3"><DocIcon/></div>
+                        {expanded && <div className="mt-2">
                             Documents
-                        </div>    
+                        </div> }    
                     </li>
 
                     <li className="py-3 flex pb-5">
                         <div className="text-black mr-1 pr-1"><LinkIcon/></div>
-                        <div className="pl-2">
+                        {expanded && <div className="pl-1">
                             Links
-                        </div>    
+                        </div> }    
                     </li>
 
                     <li className="py-2 flex">
-                        <div className="text-black mr-3 pr-1"><Hashtag/> </div>
-                        <div className="">
+                        <div className="text-black mr-2 pr-1"><Hashtag/> </div>
+                        {expanded && <div className="">
                             Tags
-                        </div>    
+                        </div> }     
                     </li>
                 </ul>
             </div>
@@ -71,11 +72,15 @@ export function Sidebar() {
             <div className="my-5 mx-3 border-t">
                 <div className="mt-7 mx-5 flex">
                     <div><Setting/></div>
-                    <div className="ml-4 text-gray-500">Settings</div>
+                    {expanded && <div className="ml-4 text-gray-500">
+                        Settings
+                    </div> }
                 </div>
                 <div className="mt-4 mx-5 flex">
                     <div><Help/></div>
-                    <div className="ml-4 text-gray-500">Help</div>
+                    {expanded && <div className="ml-4 text-gray-500">
+                        Help
+                    </div> }
                 </div>
             </div>
         </div> 
