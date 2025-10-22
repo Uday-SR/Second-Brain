@@ -21,6 +21,7 @@ model Content {
   link String
   description String
   tags String
+  type String
   userId Int
   user User @relation(fields: [userId], references: [id])
 }

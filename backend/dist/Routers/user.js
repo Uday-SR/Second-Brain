@@ -65,25 +65,5 @@ userRouter.post("/signin", async (req, res) => {
         });
     }
 });
-userRouter.post("/content", userMiddleware, async (req, res) => {
-    const { title, link, tags } = req.body;
-    const user = Number(req.userId);
-    const content = await client.content.create({
-        data: {
-            title,
-            link,
-            tags,
-            userId: user
-        }
-    });
-    res.json({
-        msg: "content created",
-        contentId: content.id
-    });
-});
-userRouter.put("/content", (req, res) => {
-});
-userRouter.delete("/content", (req, res) => {
-});
 export default userRouter;
 //# sourceMappingURL=user.js.map
