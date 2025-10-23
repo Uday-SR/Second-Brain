@@ -9,7 +9,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
   const [isSignIn, setIsSignIn] = useState(true);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-[9999]">
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-[9999]">
       <div className="bg-white text-black rounded-2xl shadow-2xl w-[90%] max-w-md p-6 relative animate-fadeIn">
         <button
           onClick={onClose}

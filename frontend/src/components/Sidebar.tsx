@@ -8,9 +8,13 @@ import { RightArrow } from "../icons/RightArrow"
 import { Hashtag } from "../icons/Hashtag"
 import { Setting } from "../icons/Setting"
 import { Help } from "../icons/Help"
-import { useState } from "react"
 
-export function Sidebar({expanded, toggleSidebar}) {
+interface SidebarProps {
+    expanded: boolean;
+    toggleSidebar: () => void;
+}
+
+export function Sidebar({ expanded, toggleSidebar }: SidebarProps) {
     return (
         <div className={`h-screen bg-white border-r left-0 top-0 fixed ${expanded ? "w-60" : "w-21"}`}>
             <div className="flex">
@@ -33,7 +37,7 @@ export function Sidebar({expanded, toggleSidebar}) {
             <div className="mx-5 mt-3 px-3 text-1xl">
                 <ul className="text-stone-500">
                     <li className="py-2 flex pb-5">
-                        <div><TweetIcon/></div>
+                        <div className=""><TweetIcon/></div>
                         {expanded && <div className="mt-1">
                             Tweets
                         </div> }   

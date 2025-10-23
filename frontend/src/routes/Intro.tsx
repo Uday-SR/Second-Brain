@@ -8,7 +8,9 @@ export default function Intro() {
 
   return (
     <>
-      <Sidebar expanded={false} toggleSidebar={() => {}} />
+      <div onClick={() => setShowAuthModal(true)}>
+        <Sidebar expanded={false} toggleSidebar={() => {}} />
+      </div>    
 
       <div className="flex flex-col items-center justify-center min-h-screen bg-blue-200 text-white p-5">
         <h1 className="text-4xl font-bold mb-4">Welcome to ReMind</h1>
