@@ -29,7 +29,7 @@ contentRouter.post("/", userMiddleware, async (req, res) => {
         });
     }
 });
-contentRouter.get("/content", async (req, res) => {
+contentRouter.get("/contents", async (req, res) => {
     try {
         const contents = await client.content.findMany();
         res.json(contents);

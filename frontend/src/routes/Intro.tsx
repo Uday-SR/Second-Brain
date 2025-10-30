@@ -4,6 +4,7 @@ import { Button } from "../components/Buttons";
 import AuthModal from "../components/AuthModal";
 
 export default function Intro() {
+  
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
