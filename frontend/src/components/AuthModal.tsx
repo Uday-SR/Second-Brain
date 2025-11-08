@@ -12,8 +12,6 @@ interface AuthModalProps {
   onClose: () => void;
 }
 
-const navigate = useNavigate();
-
 export default function AuthModal({ onClose }: AuthModalProps) {
   const [isSignIn, setIsSignIn] = useState(true);
 
@@ -23,66 +21,63 @@ export default function AuthModal({ onClose }: AuthModalProps) {
 
   const [message, setMessage] = useState("");
 
-  const handleSignUp = () => {
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
 
-      e.preventDefault(); 
+    e.preventDefault(); 
 
-      try {
+    try {
 
-        const res = await axios.post<AuthResponse>("localhost:3000/api/v1/user/signup", {
-          username,
-          email,
-          password
-        });
+      const res = await axios.post<AuthResponse>("http://localhost:3000/api/v1/user/signup", {
+        username,
+        email,
+        password
+      });
 
-        setMessage(res.data.msg);
+      setMessage(res.data.msg);
 
-        if(res.data.token) {
-          localStorage.setItem("token", res.data.token);
-          navigate("/home")
-        } else {
-          setMessage("token failure. Please try again.");
-        }
+      if(res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/home")
+      } else {
+        setMessage("token failure. Please try again.");
+      }
 
-      } catch (error) {
+    } catch (error) {
 
-        console.error("Error signing up:", error);
+      setMessage(`Error signing in: ${error}`);
         
-      }  
     }  
   }  
 
-  const handleSignIn = () => {
+  const handleSignIn = async (e: React.FormEvent) => {
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); 
 
-      e.preventDefault(); 
+    try {
 
-      try {
+      const res = await axios.post<AuthResponse>("http://localhost:3000/api/v1/user/signin", {
+        email,
+        password
+      });
 
-        const res = await axios.post<AuthResponse>("localhost:3000/api/v1/user/signin", {
-          email,
-          password
-        });
+      setMessage(res.data.msg);
 
-        setMessage(res.data.msg);
+      if(res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/home")
+      } else {
+        setMessage("token failure. Please try again.");
+      }
 
-        if(res.data.token) {
-          localStorage.setItem("token", res.data.token);
-          //navigate to dashboard
-        } else {
-          setMessage("token failure. Please try again.");
-        }
+    } catch (error) {
 
-      } catch (error) {
-
-        console.error("Error signing in:", error);
+      setMessage(`Error signing in: ${error}`);
         
-      }  
     }  
-  }
+  }  
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-[9999]">
@@ -98,7 +93,14 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           {isSignIn ? "Sign In" : "Sign Up"}
         </h2>
 
-        <form className="flex flex-col space-y-4">
+        <form className="flex flex-col space-y-4" onSubmit={async (e) => {
+            if(isSignIn) {
+              await handleSignIn(e);
+            } else {
+              await handleSignUp(e);
+            }
+          }}>
+
           {!isSignIn && (
             <input
               onChange={(e) => setUsername(e.target.value)}
@@ -107,12 +109,14 @@ export default function AuthModal({ onClose }: AuthModalProps) {
               className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           )}
+
           <input
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             placeholder="Email"
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          
           <input
             onChange={(e) => setPassword(e.target.value)}
             type="password"
@@ -120,19 +124,12 @@ export default function AuthModal({ onClose }: AuthModalProps) {
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
 
-          <Button
-            variant="primary"
-            size="sm"
-            text={isSignIn ? "Sign In" : "Sign Up"}
-            onClick={() => {
-              if (!isSignIn) {
-                handleSignUp();
-              } else {
-                handleSignIn();
-              }
-            }}
-          />
+          <button type="submit" className="bg-purple-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-purple-700 transition-colors duration-300" 
+>Submit</button>
+
         </form>
+
+        {message && <p>{message}</p>}
 
         <p className="text-sm text-center mt-4">
           {isSignIn ? "Don't have an account?" : "Already have an account?"}{" "}

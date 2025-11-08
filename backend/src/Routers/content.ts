@@ -16,7 +16,7 @@ type content = {
 
 contentRouter.post("/", userMiddleware, async (req, res) => {
 
-    const { title, link, description, tags, type }: Prisma.ContentCreateInput = req.body;
+    const { title, link, description, tags, type } = req.body;
     const userId = Number(req.userId);
 
     try {
