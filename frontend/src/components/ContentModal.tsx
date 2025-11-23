@@ -37,7 +37,7 @@ export default function ContentModal({onClose}: ContentModalProps) {
       
       try {
 
-        const res = await axios.post('http://localhost:3000/api/v1/content/', contentToAdd, {
+        const res = await axios.post('https://second-brain-backend-alpha.vercel.app/api/v1/content/', contentToAdd, {
           headers: {
             Authorization : `Bearer ${token}`
           }
