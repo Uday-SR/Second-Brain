@@ -1,4 +1,6 @@
-import express from "express";
+import express, { type Response } from "express";
+import dotenv from "dotenv";
+dotenv.config();
 import userRouter from "./routers/user.js";
 import contentRouter from "./routers/content.js";
 import cors from "cors";
@@ -18,5 +20,4 @@ app.use("/api/v1/content", contentRouter);
 
 app.listen(port, () => {
     console.log(`App listening on port : ${port}`);
-
 });
