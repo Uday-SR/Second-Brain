@@ -34,7 +34,7 @@ function App() {
 
     try {
 
-      const res = await axios.get<ContentItem[]>('https://second-brain-backend-alpha.vercel.app/api/v1/content/contents', {
+      const res = await axios.get<ContentItem[]>('http://localhost:3000/api/v1/content/contents', {
         headers: {
           Authorization : `Bearer ${token}`
         }

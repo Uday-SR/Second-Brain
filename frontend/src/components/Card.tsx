@@ -22,7 +22,7 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
         if(!token) return;
 
         try {
-            await axios.delete(`https://second-brain-backend-alpha.vercel.app/api/v1/content/${id}`, {
+            await axios.delete(`http://localhost:3000/api/v1/content/${id}`, {
                 headers: {
                   Authorization : `Bearer ${token}`
                 }

@@ -1,4 +1,6 @@
-import express from "express";
+import express, {} from "express";
+import dotenv from "dotenv";
+dotenv.config();
 import userRouter from "./routers/user.js";
 import contentRouter from "./routers/content.js";
 import cors from "cors";
@@ -6,7 +8,7 @@ const app = express();
 const port = process.env.PORT;
 app.use(express.json());
 app.use(cors({
-    origin: "https://second-brain-frontend-beryl.vercel.app/",
+    origin: "https://second-brain-frontend-beryl.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));

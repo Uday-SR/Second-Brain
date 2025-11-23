@@ -28,7 +28,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
 
     try {
 
-      const res = await axios.post<AuthResponse>("https://second-brain-backend-alpha.vercel.app/api/v1/user/signup", {
+      const res = await axios.post<AuthResponse>("http://localhost:3000/api/v1/user/signup", {
         username,
         email,
         password
@@ -54,7 +54,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
 
     try {
 
-      const res = await axios.post<AuthResponse>("https://second-brain-backend-alpha.vercel.app/api/v1/user/signin", {
+      const res = await axios.post<AuthResponse>("http://localhost:3000/api/v1/user/signin", {
         email,
         password
       });
