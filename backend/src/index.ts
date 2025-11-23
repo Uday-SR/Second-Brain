@@ -8,7 +8,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cors({
-    origin: "*",
+    origin: "https://second-brain-frontend-beryl.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
