@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 interface ContentModalProps {
@@ -42,6 +42,8 @@ export default function ContentModal({onClose}: ContentModalProps) {
             Authorization : `Bearer ${token}`
           }
         });
+
+        console.log("Content created: ", res.data);
 
       } catch (error) {
         console.log("Error creating content", error);

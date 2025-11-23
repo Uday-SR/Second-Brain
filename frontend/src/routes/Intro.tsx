@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Sidebar } from "../components/Sidebar";
-import { Button } from "../components/Buttons";
 import AuthModal from "../components/AuthModal";
 
 export default function Intro() {

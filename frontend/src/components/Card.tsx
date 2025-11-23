@@ -15,7 +15,7 @@ interface CardProps {
     onRefresh?: () => void;
 }
 
-export function Card({ id, title, link, description, tags, type, onDelete, onRefresh }: CardProps) {
+export function Card({ id, title, link, description, type, onDelete, onRefresh }: CardProps) {
 
     const deleteContent = async (id: number) => {
         const token = localStorage.getItem("token");  
