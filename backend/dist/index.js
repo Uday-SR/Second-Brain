@@ -3,10 +3,10 @@ import userRouter from "./routers/user.js";
 import contentRouter from "./routers/content.js";
 import cors from "cors";
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://second-brain-frontend-beryl.vercel.app/",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));

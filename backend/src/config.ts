@@ -1,3 +1,3 @@
-const JWT_SECRET = "JW999";
+const JWT_SECRET = "JWT999";
 
 export default JWT_SECRET
