@@ -14,7 +14,7 @@ userRouter.post("/signup", async (req, res) => {
     });
     if (userExists)
         return res.status(400).json({
-            msg: "User already exists"
+            error: "User already exists"
         });
     try {
         const newUser = await client.user.create({
@@ -34,7 +34,7 @@ userRouter.post("/signup", async (req, res) => {
     }
     catch (e) {
         return res.status(400).json({
-            msg: "Error creating user"
+            error: "Error creating user"
         });
     }
 });
@@ -48,7 +48,7 @@ userRouter.post("/signin", async (req, res) => {
         });
         if (!userExists) {
             return res.status(400).json({
-                msg: "User doesn't exist!"
+                error: "User doesn't exist!"
             });
         }
         const token = await Jwt.sign({
@@ -61,7 +61,7 @@ userRouter.post("/signin", async (req, res) => {
     }
     catch (e) {
         return res.json(400).json({
-            msg: "Error Creating User!"
+            error: "Error Creating User!"
         });
     }
 });

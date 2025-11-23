@@ -18,7 +18,7 @@ userRouter.post("/signup", async (req, res) => {
     });
 
     if(userExists) return res.status(400).json({
-        msg: "User already exists"
+        error: "User already exists"
     })
 
     try {
@@ -43,7 +43,7 @@ userRouter.post("/signup", async (req, res) => {
     } catch(e) {
 
         return res.status(400).json({
-            msg: "Error creating user"
+            error: "Error creating user"
         }); 
     } 
 });
@@ -61,7 +61,7 @@ userRouter.post("/signin", async (req, res) => {
 
         if(!userExists) {
             return res.status(400).json({
-                msg: "User doesn't exist!"
+                error: "User doesn't exist!"
             })
         }
 
@@ -76,7 +76,7 @@ userRouter.post("/signin", async (req, res) => {
 
     } catch(e) {
         return res.json(400).json({
-            msg: "Error Creating User!"
+            error: "Error Creating User!"
         })
     }    
 

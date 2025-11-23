@@ -40,13 +40,11 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       if(res.data.token) {
         localStorage.setItem("token", res.data.token);
         navigate("/home")
-      } else {
-        setMessage("token failure. Please try again.");
       }
 
-    } catch (error) {
+    } catch (error: any) {
 
-      setMessage(`Error signing in: ${error}`);
+      setMessage(`${error.response.data.error}`);
         
     }  
   }  
@@ -71,9 +69,11 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         setMessage("token failure. Please try again.");
       }
 
+      setMessage(res.data.msg);
+
     } catch (error) {
 
-      setMessage(`Error signing in: ${error}`);
+      setMessage(`Error signing in!`);
         
     }  
   }  

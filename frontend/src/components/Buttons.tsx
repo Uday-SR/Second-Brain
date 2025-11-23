@@ -23,6 +23,6 @@ const sizeStyles = {
 const defaultStyles = "rounded-lg flex gap-2 items-center justify-center font-medium transition-all duration-300 ease-in-out shadow-md hover:shadow-lg focus:ring-2  ";
 
 export const Button = (props: ButtonProps) => {
-    return <button className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]} `}>{props.startIcon} {props.text}</button>
+    return <button className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]} `} onClick={props.onClick}>{props.startIcon} {props.text}</button>
 }
 

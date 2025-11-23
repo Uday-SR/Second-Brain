@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface ContentModalProps {
   onClose: () => void;
@@ -8,9 +10,8 @@ interface contentProps {
   title: string;
   link: string;
   tags: string;
-  userId: number;
   description: string;
-  type: "twitter" | "youtube" | "article" | "other";
+  type: string;
 }
 
 export default function ContentModal({onClose}: ContentModalProps) {
@@ -19,22 +20,37 @@ export default function ContentModal({onClose}: ContentModalProps) {
         title: "",
         link: "",
         tags: "",
-        userId: 0,
         description: "",
         type: "other"
     });
+
+    const navigate = useNavigate();
     
     const handleAddContent = async (e: React.FormEvent) => {
+      e.preventDefault();
 
       const contentToAdd = { ...newContent };
-        
-      // logic
+
+      const token = await localStorage.getItem("token");
+
+      if(!token) navigate("/intro");
+      
+      try {
+
+        const res = await axios.post('http://localhost:3000/api/v1/content/', contentToAdd, {
+          headers: {
+            Authorization : `Bearer ${token}`
+          }
+        });
+
+      } catch (error) {
+        console.log("Error creating content", error);
+      }  
     
       setNewContent({
         title: "",
         link: "",
         tags: "",
-        userId: 0,
         description: "",
         type: "other"
       });
@@ -51,7 +67,10 @@ export default function ContentModal({onClose}: ContentModalProps) {
           ✕
         </button>
 
-        <form className="flex flex-col space-y-4" onSubmit={async (e) => { await handleAddContent(e); }}>
+        <form className="flex flex-col space-y-4" onSubmit={async (e) => { 
+            await handleAddContent(e); 
+            onClose();
+          }}>
 
           <input 
             onChange={(e) => setNewContent({ ...newContent, title: e.target.value })}
