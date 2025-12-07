@@ -12,13 +12,7 @@ export default function Intro() {
         <Sidebar expanded={false} toggleSidebar={() => {}} />
       </div>    
 
-      <div className="flex flex-col items-center justify-center min-h-screen text-white p-5 ml-20" style={
-        {
-          backgroundImage: "url('/src/assets/background.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }
-      } >
+      <div className="flex flex-col items-center justify-center min-h-screen bg-blue-200 text-white p-5 ml-20">
         <h1 className="text-4xl font-bold mb-4">Welcome to ReMind</h1>
 
         <p className="text-lg mb-8 text-center max-w-xl">
