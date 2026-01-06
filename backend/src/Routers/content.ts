@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { prisma } from '../lib/prisma.js';
 import userMiddleware from '../middlewares/user.js';
 
 const contentRouter = Router();
-const client = new PrismaClient();
+const client = prisma;
 
 type content = {
     title: string;

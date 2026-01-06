@@ -1,1 +1,1 @@
-{"root":["./src/config.ts","./src/index.ts","./src/prisma.config.ts","./src/middlewares/user.ts","./src/routers/content.ts","./src/routers/user.ts"],"version":"5.9.3"}
+{"root":["./src/config.ts","./src/index.ts","./src/prisma.config.ts","./src/lib/prisma.ts","./src/middlewares/user.ts","./src/routers/content.ts","./src/routers/user.ts"],"version":"5.9.3"}

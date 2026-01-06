@@ -1,11 +1,11 @@
 import { Router } from "express"
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "../lib/prisma.js"
 import Jwt from "jsonwebtoken"
 import JWT_SECRET from "../config.js";
 import userMiddleware from "../middlewares/user.js";
 
 const userRouter = Router();
-const client = new PrismaClient();
+const client = prisma;
 
 userRouter.post("/signup", async (req, res) => {
 

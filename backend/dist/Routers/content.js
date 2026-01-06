@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { prisma } from '../lib/prisma.js';
 import userMiddleware from '../middlewares/user.js';
 const contentRouter = Router();
-const client = new PrismaClient();
+const client = prisma;
 contentRouter.post("/", userMiddleware, async (req, res) => {
     const { title, link, description, tags, type } = req.body;
     const userId = Number(req.userId);
