@@ -2,8 +2,8 @@ import express, { type Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 
-import userRouter from "./routers/user";
-import contentRouter from "./routers/content";
+import userRouter from "./routers/user.js";
+import contentRouter from "./routers/content.js";
 import cors from "cors";
 
 import { prisma } from "./lib/prisma.js"; 
