@@ -6,6 +6,7 @@ import contentRouter from "./routers/content.js";
 import cors from "cors";
 import { prisma } from "./lib/prisma.js";
 const app = express();
+const port = 3000;
 // Middlewares
 app.use(express.json());
 app.use(cors({
@@ -27,7 +28,8 @@ app.get("/api/health", async (_req, res) => {
         res.status(500).json({ ok: false, error: "Internal Server Error" });
     }
 });
-export default app;
-const port = process.env.PORT;
-app.listen(port, () => { console.log(`App listening on port ${port}`); });
+//export default app;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
 //# sourceMappingURL=index.js.map

@@ -10,6 +10,8 @@ import { prisma } from "./lib/prisma.js";
 
 const app = express();
 
+const port = 3000;
+
 // Middlewares
 app.use(express.json());
 app.use(
@@ -24,7 +26,7 @@ app.use(
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/content", contentRouter);
 
-// Health check route 
+
 app.get("/api/health", async (_req, res: Response) => {
   try {
     const userCount = await prisma.user.count();
@@ -35,4 +37,8 @@ app.get("/api/health", async (_req, res: Response) => {
   }
 });
 
-export default app;
+//export default app;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

@@ -1,3 +1,2 @@
-import app from "../index.js";
-export default app;
+export {};
 //# sourceMappingURL=index.d.ts.map
