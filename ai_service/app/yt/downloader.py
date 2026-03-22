@@ -6,9 +6,9 @@ CAPTIONS_DIR.mkdir(parents=True, exist_ok=True)
 
 def download_captions(video_url: str, video_id: str):
     ydl_opts = {
-        "skip_download": True,          # 🚫 no video
-        "writesubtitles": True,         # captions
-        "writeautomaticsub": True,      # auto captions
+        "skip_download": True,          
+        "writesubtitles": True,         
+        "writeautomaticsub": True,      
         "subtitleslangs": ["en"],
         "subtitlesformat": "vtt",
         "outtmpl": str(CAPTIONS_DIR / f"{video_id}.%(ext)s"),
