@@ -1,4 +1,5 @@
 
+
 interface AuthModalProps {
   onClose: () => void;
 }

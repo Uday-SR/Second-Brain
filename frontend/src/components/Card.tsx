@@ -2,7 +2,9 @@ import { DocIcon } from "../icons/DocIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
 import { AiIcon } from "../icons/aiIcon"
+import AskAi from "./AskAi"
 import axios from "axios";
+import { useState } from "react"
 
 interface CardProps {
     id: number;
@@ -17,6 +19,7 @@ interface CardProps {
 }
 
 export function Card({ id, title, link, description, type, onDelete, onRefresh }: CardProps) {
+    const [showAi, setShowAi] = useState(false);
 
     const deleteContent = async (id: number) => {
         const token = localStorage.getItem("token");  
@@ -56,7 +59,11 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
                         <DeleteIcon />
                     </button>
                     
-                    <AiIcon />
+                    <button className="text-gray-300 hover:text-red-500" onClick={() => {
+                        setShowAi(true);
+                    }}>
+                        <AiIcon />
+                    </button>
                 </div>
             </div>
 
@@ -87,6 +94,14 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
                     {description}
                 </div>
             </div>
+            {showAi && (
+            <AskAi 
+                onClose={() => setShowAi(false)} 
+                link={link} 
+                title={title}
+            />
+            )}
+            
         </div>
     )
 }
