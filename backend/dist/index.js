@@ -17,7 +17,6 @@ app.use(cors({
 // Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/content", contentRouter);
-// Health check route 
 app.get("/api/health", async (_req, res) => {
     try {
         const userCount = await prisma.user.count();

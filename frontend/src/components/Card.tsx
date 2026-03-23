@@ -1,6 +1,7 @@
 import { DocIcon } from "../icons/DocIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
+import { AiIcon } from "../icons/aiIcon"
 import axios from "axios";
 
 interface CardProps {
@@ -54,6 +55,8 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
                         }}>
                         <DeleteIcon />
                     </button>
+                    
+                    <AiIcon />
                 </div>
             </div>
 
