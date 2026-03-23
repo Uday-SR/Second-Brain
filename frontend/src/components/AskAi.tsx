@@ -3,6 +3,11 @@ interface AuthModalProps {
   onClose: () => void;
 }
 
+interface link {
+    video_url: string;
+    video_id: string
+}
+
 export default function AskAi({onClose}: AuthModalProps) {
     return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-[9999]">
