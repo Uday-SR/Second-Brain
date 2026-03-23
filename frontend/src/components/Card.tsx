@@ -95,11 +95,11 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
                 </div>
             </div>
             {showAi && (
-            <AskAi 
-                onClose={() => setShowAi(false)} 
-                link={link} 
-                title={title}
-            />
+                <AskAi 
+                    onClose={() => setShowAi(false)} 
+                    // // link={link} 
+                    // title={title}
+                />
             )}
             
         </div>
