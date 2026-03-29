@@ -4,9 +4,9 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import userRouter from "./routers/user.js";
-import contentRouter from "./routers/content.js";
-import { prisma } from "./lib/prisma.js";
+import userRouter from "../routers/user.js";
+import contentRouter from "../routers/content.js";
+import { prisma } from "../lib/prisma.js";
 
 dotenv.config();
 
