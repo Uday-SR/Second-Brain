@@ -1,22 +1,28 @@
 import express, { type Response } from "express";
 import dotenv from "dotenv";
-dotenv.config();
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
 
 import userRouter from "./routers/user.js";
 import contentRouter from "./routers/content.js";
-import cors from "cors";
+import { prisma } from "./lib/prisma.js";
 
-import { prisma } from "./lib/prisma.js"; 
+dotenv.config();
 
 const app = express();
 
-const port = 3000;
-
 // Middlewares
+app.use(helmet());
+app.use(morgan("dev"));
 app.use(express.json());
+
 app.use(
   cors({
-    origin: "https://second-brain-frontend-beryl.vercel.app",
+    origin: [
+      "http://localhost:5173",
+      "https://second-brain-frontend-beryl.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -26,7 +32,7 @@ app.use(
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/content", contentRouter);
 
-
+// Health check
 app.get("/api/health", async (_req, res: Response) => {
   try {
     const userCount = await prisma.user.count();
@@ -37,8 +43,10 @@ app.get("/api/health", async (_req, res: Response) => {
   }
 });
 
-//export default app;
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Error handler
+app.use((err: any, _req: any, res: Response, _next: any) => {
+  console.error(err);
+  res.status(500).json({ error: "Something went wrong" });
 });
+
+export default app;

@@ -19,10 +19,16 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
     "prisma": "^6.18.0",
     "typescript": "^5.9.3",
     "vercel": "^48.10.10"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@types/helmet": "^0.0.48",
+    "@types/morgan": "^1.9.10"
+  }
 }
