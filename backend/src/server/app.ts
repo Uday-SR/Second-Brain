@@ -1,5 +1,4 @@
 import express, { type Response } from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -7,8 +6,6 @@ import morgan from "morgan";
 import userRouter from "../routers/user.js";
 import contentRouter from "../routers/content.js";
 import { prisma } from "../lib/prisma.js";
-
-dotenv.config();
 
 const app = express();
 
@@ -23,7 +20,6 @@ app.use(
       "http://localhost:5173",
       "https://second-brain-frontend-beryl.vercel.app",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
@@ -39,14 +35,14 @@ app.get("/api/health", async (_req, res: Response) => {
     res.json({ ok: true, users: userCount });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ ok: false, error: "Internal Server Error" });
+    res.status(500).json({ ok: false });
   }
 });
 
 // Error handler
 app.use((err: any, _req: any, res: Response, _next: any) => {
   console.error(err);
-  res.status(500).json({ error: "Something went wrong" });
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
 export default app;

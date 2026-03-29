@@ -2,13 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
-
   "scripts": {
-    "dev": "vercel dev",
-    "build": "prisma generate"
+    "dev": "tsx src/index.ts",
+    "build": "tsc && prisma generate",
+    "start": "node dist/index.js"
   },
-
   "dependencies": {
     "@prisma/client": "^6.18.0",
     "cors": "^2.8.5",
@@ -18,14 +16,15 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1"
   },
-
   "devDependencies": {
-    "prisma": "^6.18.0",
-    "typescript": "^5.9.3",
-    "@types/express": "^5.0.5",
     "@types/cors": "^2.8.19",
-    "@types/jsonwebtoken": "^9.0.10",
+    "@types/express": "^5.0.5",
     "@types/helmet": "^0.0.48",
-    "@types/morgan": "^1.9.10"
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.5.0",
+    "prisma": "^6.18.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.9.3"
   }
 }
