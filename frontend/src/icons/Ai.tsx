@@ -3,7 +3,7 @@ type AiIconProps = {
   className?: string;
 };
 
-export function Ailcon({ size = 20, className = "size-5.5" }: AiIconProps) {
+export function Ai({ size = 20, className = "size-5.5" }: AiIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

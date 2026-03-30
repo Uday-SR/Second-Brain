@@ -1,7 +1,7 @@
 import { DocIcon } from "../icons/DocIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
-import { Ailcon } from "../icons/AiIcon"
+import { Ai } from "../icons/Ai"
 import AskAi from "./AskAi"
 import axios from "axios";
 import { useState } from "react"
@@ -62,7 +62,7 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
                     <button className="text-gray-300 hover:text-cyan-300" onClick={() => {
                         setShowAi(true);
                     }}>
-                        <Ailcon />
+                        <Ai />
                     </button>
                 </div>
             </div>
