@@ -5,85 +5,82 @@ import userMiddleware from '../middlewares/user';
 const contentRouter = Router();
 const client = prisma;
 
-type content = {
-    title: string;
-    link: string;
-    description: string;
-    tags: string;
-    type: "twitter" | "youtube";
-    userId: number;
-}
-
 contentRouter.post("/", userMiddleware, async (req, res) => {
 
     const { title, link, description, tags, type } = req.body;
     const userId = Number(req.userId);
 
     try {
-
         const newContent = await client.content.create({
             data: {
-                title : title,
-                link : link,
-                description : description,
-                tags : tags,
-                type : type,
-                userId : userId
+                title,
+                link,
+                description,
+                tags,
+                type,
+                userId
             }
         });
 
         res.json({
-            msg : "Content added successfully",
-            content : newContent,
+            msg: "Content added successfully",
+            content: newContent,
             id: newContent.id
         });
 
     } catch (e) {
-
         res.status(400).json({
-            msg : "Error adding content"
+            msg: "Error adding content"
         });
-
     }
-
 });
 
-contentRouter.get("/contents", async (req, res) => {
+contentRouter.get("/contents", userMiddleware, async (req, res) => {
     try {
+        const userId = Number(req.userId);
 
-        const contents = await client.content.findMany();
+        const contents = await client.content.findMany({
+            where: {
+                userId: userId
+            }
+        });
+
         res.json(contents);
 
     } catch (e) {
-
         res.status(400).json({
-            msg : "Error fetching contents"
+            msg: "Error fetching contents"
         });
-
-    }    
+    }
 });
 
-contentRouter.delete("/:id", async (req, res) => {
+contentRouter.delete("/:id", userMiddleware, async (req, res) => {
 
     const contentId = Number(req.params.id);
+    const userId = Number(req.userId);
 
     try {
-        await client.content.delete({
+        const deleted = await client.content.deleteMany({
             where: {
-                id: contentId
+                id: contentId,
+                userId: userId
             }
-        })
+        });
+
+        if (deleted.count === 0) {
+            return res.status(403).json({
+                msg: "Not authorized to delete this content"
+            });
+        }
 
         res.json({
-            msg : "Content deleted successfully"
+            msg: "Content deleted successfully"
         });
 
     } catch (e) {
-
         res.status(400).json({
-            msg : "Error deleting content"
-        });    
-
+            msg: "Error deleting content"
+        });
     }
 });
 
