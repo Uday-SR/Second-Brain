@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.yt.downloader import download_captions
 from app.yt.parser import vtt_to_text
 from app.rag.chunker import chunk_text
@@ -8,6 +9,14 @@ from app.rag.ollama import ask_ollama
 from app.config import CAPTIONS_DIR
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 STATE = {}
 

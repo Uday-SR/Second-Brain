@@ -1,7 +1,7 @@
 import { DocIcon } from "../icons/DocIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
-
+import { AiIcon } from "../icons/AiIcon"
 import AskAi from "./AskAi"
 import axios from "axios";
 import { useState } from "react"
@@ -38,8 +38,8 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
     }
 
     return (
-        <div className="group relative mx-2 my-4 w-40 h-60 rounded-md bg-white border border-gray-200 transition-all duration-200
-                        hover:w-65 hover:h-65 hover:bg-emerald-300 hover:z-5 hover:shadow-xl flex flex-col overflow-visible z-1">
+        <div className="group relative left-2 mx-2 my-4 w-40 sm:w-50 h-60 rounded-md bg-white border border-gray-200 transition-all duration-200
+                        hover:w-50 sm:hover:w-60 hover:h-65 hover:bg-emerald-300 hover:z-5 hover:shadow-xl flex flex-col overflow-visible z-1">
             
             <div className="flex justify-between items-center p-4 border-b border-gray-200">
                 <div className="text-gray-500 flex space-x-2 font-normal truncate">
@@ -59,10 +59,10 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
                         <DeleteIcon />
                     </button>
                     
-                    <button className="text-gray-300 hover:text-red-500" onClick={() => {
+                    <button className="text-gray-300 hover:text-cyan-300" onClick={() => {
                         setShowAi(true);
                     }}>
-                        {/* <AiIcon /> */}
+                        <AiIcon />
                     </button>
                 </div>
             </div>
@@ -97,8 +97,7 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
             {showAi && (
                 <AskAi 
                     onClose={() => setShowAi(false)} 
-                    // // link={link} 
-                    // title={title}
+                    link={link}     
                 />
             )}
             
