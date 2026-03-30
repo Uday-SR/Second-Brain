@@ -2,7 +2,6 @@ import { Router } from "express"
 import { prisma } from "../lib/prisma"
 import Jwt from "jsonwebtoken"
 import JWT_SECRET from "../config";
-import userMiddleware from "../middlewares/user";
 
 const userRouter = Router();
 const client = prisma;

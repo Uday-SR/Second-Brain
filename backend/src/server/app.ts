@@ -3,8 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import userRouter from "../routers/user";
-import contentRouter from "../routers/content";
+import userRouter from "../Routers/user";
+import contentRouter from "../Routers/content";
 import { prisma } from "../lib/prisma";
 
 const app = express();
