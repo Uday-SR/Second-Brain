@@ -1,7 +1,7 @@
 import { DocIcon } from "../icons/DocIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
-import { AiIcon } from "../icons/aiIcon"
+import { AiIcon } from "../icons/AiIcon"
 import AskAi from "./AskAi"
 import axios from "axios";
 import { useState } from "react"
@@ -26,7 +26,7 @@ export function Card({ id, title, link, description, type, onDelete, onRefresh }
         if(!token) return;
 
         try {
-            await axios.delete(`http://localhost:3000/api/v1/content/${id}`, {
+            await axios.delete(`https://second-brain-backend-p1hj.onrender.com/api/v1/content/${id}`, {
                 headers: {
                   Authorization : `Bearer ${token}`
                 }
