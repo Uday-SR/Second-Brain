@@ -3,7 +3,6 @@ import { prisma } from "../lib/prisma"
 import Jwt from "jsonwebtoken"
 import JWT_SECRET from "../config";
 
-
 const userRouter = Router();
 const client = prisma;
 
