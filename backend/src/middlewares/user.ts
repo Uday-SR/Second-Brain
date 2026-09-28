@@ -17,7 +17,7 @@ function userMiddleware(req: Request, res: Response, next: NextFunction) {
         return res.status(403).json({
             msg: "No token provided"
         })
-    }
+    } 
 
     const token = authHeader.split(" ")[1];
 
@@ -27,7 +27,7 @@ function userMiddleware(req: Request, res: Response, next: NextFunction) {
 
     const decoded = Jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-    req.userId = decoded.id
+    req.userId = decoded.id;
 
     next();
 

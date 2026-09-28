@@ -1,14 +1,13 @@
 from yt_dlp import YoutubeDL
-from pathlib import Path
 
-CAPTIONS_DIR = Path("data/captions")
-CAPTIONS_DIR.mkdir(parents=True, exist_ok=True)
+from app.config import CAPTIONS_DIR
+
 
 def download_captions(video_url: str, video_id: str):
     ydl_opts = {
-        "skip_download": True,          
-        "writesubtitles": True,         
-        "writeautomaticsub": True,      
+        "skip_download": True,
+        "writesubtitles": True,
+        "writeautomaticsub": True,
         "subtitleslangs": ["en"],
         "subtitlesformat": "vtt",
         "outtmpl": str(CAPTIONS_DIR / f"{video_id}.%(ext)s"),

@@ -1,8 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Second Brain — Prisma schema
+//
+// Changes from the original:
+//   - Content: added status/error/filePath/contentHash so the app can track
+//     per-item ingestion progress instead of assuming every save succeeds instantly.
+//   - `type` stays a String (not an enum) so existing "youtube" / "twitter" / "other"
+//     rows keep working with no data migration.
 
 generator client {
   provider = "prisma-client-js"
@@ -15,21 +17,34 @@ datasource db {
 
 model User {
   id       Int       @id @default(autoincrement())
-  username String
+  username String    @unique
   email    String    @unique
   password String
-  content  Content[]
+  contents Content[]
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
 }
 
 model Content {
-  id          Int    @id @default(autoincrement())
+  id          Int              @id @default(autoincrement())
   title       String
-  link        String
-  tags        String
-  userId      Int
+  link        String? // null when the content was uploaded as a file
+  filePath    String? // set for uploaded files (PDF, markdown, image, audio)
   description String
-  type        String
-  user        User   @relation(fields: [userId], references: [id])
+  tags        String
+  type        String // youtube | twitter | article | pdf | markdown | image | audio | github | url
+  status      ProcessingStatus @default(PENDING)
+  error       String?
+  contentHash String? // dedupe / detect unchanged content on re-processing
+  createdAt   DateTime         @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
-
-

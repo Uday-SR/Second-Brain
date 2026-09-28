@@ -1,7 +1,18 @@
 fastapi
-uvicorn
-yt-dlp
+uvicorn[standard]
+python-multipart
+pydantic
+requests
+python-dotenv
+PyJWT
+
+# RAG
 sentence-transformers
 faiss-cpu
 nltk
-requests
+numpy
+
+# Loaders
+yt-dlp
+trafilatura
+PyMuPDF
