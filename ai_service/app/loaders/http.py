@@ -1,10 +1,3 @@
-"""Safe HTTP fetching for user-supplied URLs.
-
-The AI service downloads whatever URL a user saves, so it must not be tricked into
-reaching internal addresses (localhost, cloud metadata endpoints, private networks).
-Every hop of a redirect chain is checked. (Note: this does not defend against DNS
-rebinding; run the service without access to sensitive internal networks in production.)
-"""
 from __future__ import annotations
 
 import ipaddress

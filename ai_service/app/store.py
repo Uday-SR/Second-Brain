@@ -1,19 +1,3 @@
-"""Per-content, per-user persistence.
-
-Replaces the old global `STATE` dict in main.py, which held only the single most
-recently processed video, shared across every user, and lost on restart.
-
-Each content item gets its own folder under INDEX_DIR:
-
-    data/indexes/<user_id>/<content_id>/
-        status.json   -> {status, error, chunk_count, content_hash}
-        chunks.json   -> [{"text": ..., "location": ...}, ...]
-        vectors.npy   -> embeddings, float32, shape (n_chunks, dim)
-
-This is plain-file storage rather than a database so the AI service has no extra
-infra dependency. If you outgrow it, swap this module for pgvector (same DB the
-Node backend already uses) or Chroma without touching main.py.
-"""
 from __future__ import annotations
 
 import hashlib

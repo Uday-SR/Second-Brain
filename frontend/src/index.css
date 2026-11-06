@@ -1,2 +1,13 @@
 @import "tailwindcss";
 
+/* Matches the backdrop's darkest tone so overscroll / loading never flashes white. */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: #12141c;
+  overflow-x: hidden;
+}

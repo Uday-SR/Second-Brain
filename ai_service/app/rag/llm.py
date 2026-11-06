@@ -20,11 +20,11 @@ def ask_llm(context: str, question: str, source_type: str = "content", model: st
     prompt = PROMPT_TEMPLATE.format(context=context, question=question, source_type=source_type)
 
     if OLLAMA_API_KEY:
-        # Ollama's hosted (cloud) API — what the project currently uses.
+
         url = "https://ollama.com/api/generate"
         headers = {"Authorization": f"Bearer {OLLAMA_API_KEY}", "Content-Type": "application/json"}
     else:
-        # A local `ollama serve` — no API key needed, nothing leaves the machine.
+        
         url = f"{OLLAMA_HOST.rstrip('/')}/api/generate"
         headers = {"Content-Type": "application/json"}
 

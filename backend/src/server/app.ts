@@ -9,7 +9,6 @@ import { prisma } from "../lib/prisma";
 
 const app = express();
 
-// Middlewares
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());

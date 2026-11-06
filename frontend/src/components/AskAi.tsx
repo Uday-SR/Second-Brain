@@ -10,15 +10,6 @@ interface AskAiProps {
 
 type Status = "pending" | "processing" | "done" | "failed" | "unknown";
 
-// --------------------------------------------------
-// Component
-//
-// Generalized from the YouTube-only version: processing is now triggered when
-// content is first saved (see ContentModal), so this component's job is to
-// poll status until it's ready, then let the user ask questions — for any
-// source type, not just YouTube.
-// --------------------------------------------------
-
 export default function AskAi({ onClose, contentId, type }: AskAiProps) {
   const [status, setStatus] = useState<Status>("unknown");
   const [statusError, setStatusError] = useState("");
@@ -56,7 +47,7 @@ export default function AskAi({ onClose, contentId, type }: AskAiProps) {
     return () => {
       if (pollRef.current) window.clearInterval(pollRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   }, [contentId]);
 
   const handleAsk = async () => {

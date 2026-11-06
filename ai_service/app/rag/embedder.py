@@ -5,8 +5,7 @@ from functools import lru_cache
 
 @lru_cache(maxsize=1)
 def get_model():
-    # Loaded lazily and cached: importing sentence_transformers is slow, and the
-    # model is only needed once ingestion or a question actually happens.
+    
     from sentence_transformers import SentenceTransformer
 
     return SentenceTransformer("all-MiniLM-L6-v2")

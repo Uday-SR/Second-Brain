@@ -1,11 +1,3 @@
-// Second Brain — Prisma schema
-//
-// Changes from the original:
-//   - Content: added status/error/filePath/contentHash so the app can track
-//     per-item ingestion progress instead of assuming every save succeeds instantly.
-//   - `type` stays a String (not an enum) so existing "youtube" / "twitter" / "other"
-//     rows keep working with no data migration.
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -33,14 +25,14 @@ enum ProcessingStatus {
 model Content {
   id          Int              @id @default(autoincrement())
   title       String
-  link        String? // null when the content was uploaded as a file
-  filePath    String? // set for uploaded files (PDF, markdown, image, audio)
+  link        String? 
+  filePath    String? 
   description String
   tags        String
-  type        String // youtube | twitter | article | pdf | markdown | image | audio | github | url
+  type        String 
   status      ProcessingStatus @default(PENDING)
   error       String?
-  contentHash String? // dedupe / detect unchanged content on re-processing
+  contentHash String? 
   createdAt   DateTime         @default(now())
 
   userId Int

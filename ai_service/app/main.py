@@ -1,8 +1,3 @@
-"""AI service: ingests saved content and answers questions about it.
-
-Generalized from the original YouTube-only /process + /ask into per-content,
-per-user endpoints backed by app.store instead of a single global dict.
-"""
 from __future__ import annotations
 
 from pathlib import Path
@@ -41,11 +36,6 @@ def supported_types():
     """Lets the frontend know which source types can be indexed for Q&A today."""
     return {"supported": sorted(SUPPORTED_TYPES)}
 
-
-# --------------------------------------------------------------------------
-# Ingestion
-# --------------------------------------------------------------------------
-
 def _run_ingestion(user_id: int, content_id: int, kind: str, url: str | None, path: Path | None) -> None:
     try:
         store.write_status(user_id, content_id, store.Status(status="processing"))
@@ -58,7 +48,7 @@ def _run_ingestion(user_id: int, content_id: int, kind: str, url: str | None, pa
         chash = store.content_hash(document.text)
         existing = store.read_status(user_id, content_id)
         if existing and existing.content_hash == chash and existing.status == "done":
-            return  # unchanged since last run — skip re-embedding
+            return  
 
         chunks = chunk_segments(document.segments)
         if not chunks:
@@ -75,7 +65,7 @@ def _run_ingestion(user_id: int, content_id: int, kind: str, url: str | None, pa
 
     except LoaderError as e:
         store.write_status(user_id, content_id, store.Status(status="failed", error=str(e)))
-    except Exception as e:  # noqa: BLE001 — surface *something* rather than hang at "processing"
+    except Exception as e:  
         print(f"INGEST ERROR (user={user_id}, content={content_id}): {e!r}")
         store.write_status(
             user_id, content_id,
@@ -89,7 +79,7 @@ def _run_ingestion(user_id: int, content_id: int, kind: str, url: str | None, pa
 class ProcessRequest(BaseModel):
     content_id: int
     url: str
-    type: str | None = None  # auto-detected from the URL if omitted
+    type: str | None = None  
 
 
 @app.post("/content/process")
@@ -122,9 +112,7 @@ async def process_upload(
     file: UploadFile,
     user_id: int = Depends(get_user_id),
 ):
-    # Wrapped in try/except so an unexpected error always comes back as a
-    # readable "detail" message in the response, instead of a bare 500 with
-    # nothing in the terminal (e.g. when uvicorn's log level hides it).
+    
     try:
         kind = detect_type(filename=file.filename)
         if kind not in SUPPORTED_TYPES:
@@ -163,11 +151,6 @@ def get_status(content_id: int, user_id: int = Depends(get_user_id)):
 def delete_content(content_id: int, user_id: int = Depends(get_user_id)):
     store.delete_content(user_id, content_id)
     return {"status": "deleted"}
-
-
-# --------------------------------------------------------------------------
-# Q&A
-# --------------------------------------------------------------------------
 
 class AskRequest(BaseModel):
     content_id: int

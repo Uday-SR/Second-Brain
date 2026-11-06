@@ -15,7 +15,7 @@ def _decode(data: bytes) -> str:
 
 
 def _split_markdown(text: str) -> list[Segment]:
-    """Split on headings so answers can point at a section."""
+    
     segments: list[Segment] = []
     heading: str | None = None
     buf: list[str] = []

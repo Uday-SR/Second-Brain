@@ -4,6 +4,7 @@ import Jwt from "jsonwebtoken";
 
 import { prisma } from "../lib/prisma";
 import JWT_SECRET from "../config";
+import userMiddleware from "../middlewares/user";
 
 const userRouter = Router();
 const client = prisma;
@@ -25,7 +26,7 @@ userRouter.post("/signup", async (req, res) => {
   }
 
   try {
-    // Password is hashed before storage — it was previously saved as plain text.
+    
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const newUser = await client.user.create({
@@ -53,13 +54,10 @@ userRouter.post("/signin", async (req, res) => {
   try {
     const user = await client.user.findFirst({ where: { email } });
 
-    // Same "invalid credentials" message for both cases (unknown email vs. wrong
-    // password) so a caller can't use this endpoint to find out which emails exist.
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password." });
     }
 
-    // The previous version issued a token here without checking the password at all.
     const passwordMatches = await bcrypt.compare(password, user.password);
 
     if (!passwordMatches) {
@@ -73,8 +71,24 @@ userRouter.post("/signin", async (req, res) => {
       token,
     });
   } catch (e) {
-    // Fixed: `res.json(400)` doesn't set a status code, it sends the number 400 as JSON.
     return res.status(400).json({ error: "Error signing in." });
+  }
+});
+
+userRouter.get("/me", userMiddleware, async (req, res) => {
+  try {
+    const user = await client.user.findUnique({
+      where: { id: Number(req.userId) },
+      select: { id: true, username: true, email: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    return res.status(200).json(user);
+  } catch (e) {
+    return res.status(400).json({ error: "Error fetching profile." });
   }
 });
 

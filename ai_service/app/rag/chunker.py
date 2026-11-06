@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 try:
+
     import nltk
     from nltk.tokenize import sent_tokenize
 
@@ -12,7 +13,8 @@ try:
     def _sentences(text: str) -> list[str]:
         return sent_tokenize(text)
 
-except Exception:  # nltk not installed, or download failed (offline box)
+except Exception:  
+    
     import re
 
     def _sentences(text: str) -> list[str]:
@@ -20,8 +22,7 @@ except Exception:  # nltk not installed, or download failed (offline box)
 
 
 def _hard_split(sentence: str, max_chars: int) -> list[str]:
-    """A single sentence longer than max_chars (code block, long URL, ...) still
-    needs to become one or more chunks, so cut it at word boundaries."""
+   
     words = sentence.split(" ")
     pieces, current = [], ""
     for w in words:
@@ -37,6 +38,7 @@ def _hard_split(sentence: str, max_chars: int) -> list[str]:
 
 
 def chunk_text(text: str, max_chars: int = 500) -> list[str]:
+
     chunks: list[str] = []
     current = ""
 
@@ -66,11 +68,7 @@ def chunk_text(text: str, max_chars: int = 500) -> list[str]:
 
 
 def chunk_segments(segments, max_chars: int = 500):
-    """Chunk a list of loaders.base.Segment, keeping each chunk's location.
 
-    Returns a list of (text, location) tuples so retrieval results can say
-    "page 3" or "34:10" instead of just a bare snippet.
-    """
     out: list[tuple[str, str | None]] = []
     for seg in segments:
         for piece in chunk_text(seg.text, max_chars):

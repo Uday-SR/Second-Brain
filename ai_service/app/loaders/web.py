@@ -7,7 +7,7 @@ from .text import load_text_bytes
 
 
 def load_url(url: str) -> Document:
-    """Fetch a URL and pick the right extractor from what actually comes back."""
+    
     data, content_type, final_url = fetch(url)
 
     if content_type == "application/pdf" or data[:5] == b"%PDF-":

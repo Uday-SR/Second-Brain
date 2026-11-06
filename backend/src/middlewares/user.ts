@@ -17,7 +17,7 @@ function userMiddleware(req: Request, res: Response, next: NextFunction) {
         return res.status(403).json({
             msg: "No token provided"
         })
-    } 
+    }
 
     const token = authHeader.split(" ")[1];
 
@@ -25,9 +25,17 @@ function userMiddleware(req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ message: "Token missing" });
     }
 
-    const decoded = Jwt.verify(token, JWT_SECRET) as JwtPayload;
+    try {
+        const decoded = Jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-    req.userId = decoded.id;
+        if (decoded.id === undefined || decoded.id === null) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+
+        req.userId = String(decoded.id);
+    } catch (e) {
+        return res.status(401).json({ message: "Invalid or expired token" });
+    }
 
     next();
 

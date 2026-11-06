@@ -1,11 +1,12 @@
 import { Router } from "express";
+import Jwt, { type JwtPayload } from "jsonwebtoken";
 import { prisma } from "../lib/prisma";
+import JWT_SECRET from "../config";
 import userMiddleware from "../middlewares/user";
 
 const contentRouter = Router();
 const client = prisma;
 
-// Kept in sync with ai_service/app/loaders/__init__.py's KNOWN_TYPES.
 const KNOWN_TYPES = new Set([
   "youtube",
   "twitter",
@@ -38,8 +39,6 @@ contentRouter.post("/", userMiddleware, async (req, res) => {
         tags: tags || "",
         type: normalizedType,
         userId,
-        // status defaults to PENDING in the schema — the frontend triggers
-        // AI-service processing separately, then polls /status.
       },
     });
 
@@ -68,8 +67,6 @@ contentRouter.get("/contents", userMiddleware, async (req, res) => {
   }
 });
 
-// Lets the frontend update status/error after the AI service finishes a job,
-// without exposing the AI service directly to the whole internet.
 contentRouter.patch("/:id/status", userMiddleware, async (req, res) => {
   const contentId = Number(req.params.id);
   const userId = Number(req.userId);
@@ -93,6 +90,90 @@ contentRouter.patch("/:id/status", userMiddleware, async (req, res) => {
     res.json({ msg: "Status updated" });
   } catch (e) {
     res.status(400).json({ msg: "Error updating status" });
+  }
+});
+
+
+const SHARE_SECRET = `${JWT_SECRET}:share`;
+const SHARE_EXPIRY = "30d";
+
+function tagList(raw: string | null | undefined): string[] {
+  return (raw || "")
+    .split(/[,#]/)
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+contentRouter.post("/share", userMiddleware, (req, res) => {
+  const userId = Number(req.userId);
+
+  const types: string[] = Array.isArray(req.body?.types)
+    ? req.body.types.filter((t: unknown) => typeof t === "string" && KNOWN_TYPES.has(t))
+    : [];
+  const tag = typeof req.body?.tag === "string" ? req.body.tag.trim().slice(0, 100) : "";
+  const label = typeof req.body?.label === "string" ? req.body.label.trim().slice(0, 60) : "";
+
+  const token = Jwt.sign({ kind: "share", uid: userId, types, tag, label }, SHARE_SECRET, {
+    expiresIn: SHARE_EXPIRY,
+  });
+
+  res.json({ token, expiresInDays: 30 });
+});
+
+contentRouter.get("/shared/:token", async (req, res) => {
+  let payload: JwtPayload;
+  try {
+    payload = Jwt.verify(req.params.token as string, SHARE_SECRET) as JwtPayload;
+  } catch (e) {
+    return res.status(404).json({ msg: "This share link is invalid or has expired." });
+  }
+
+  if (payload.kind !== "share" || typeof payload.uid !== "number") {
+    return res.status(404).json({ msg: "This share link is invalid or has expired." });
+  }
+
+  const types: string[] = Array.isArray(payload.types)
+    ? payload.types.filter((t: unknown) => typeof t === "string")
+    : [];
+  const tag = typeof payload.tag === "string" ? payload.tag.trim().toLowerCase() : "";
+
+  try {
+    const owner = await client.user.findUnique({
+      where: { id: payload.uid },
+      select: { username: true },
+    });
+
+    if (!owner) {
+      return res.status(404).json({ msg: "This share link is invalid or has expired." });
+    }
+
+    const rows = await client.content.findMany({
+      where: {
+        userId: payload.uid,
+        ...(types.length ? { type: { in: types } } : {}),
+      },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        title: true,
+        link: true,
+        description: true,
+        tags: true,
+        type: true,
+        createdAt: true,
+      },
+    });
+
+    const contents = tag ? rows.filter((r) => tagList(r.tags).includes(tag)) : rows;
+
+    res.json({
+      owner: owner.username,
+      label: typeof payload.label === "string" ? payload.label : "",
+      expiresAt: payload.exp ? payload.exp * 1000 : null,
+      contents,
+    });
+  } catch (e) {
+    res.status(400).json({ msg: "Error loading shared content" });
   }
 });
 

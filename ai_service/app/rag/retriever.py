@@ -5,8 +5,7 @@ import numpy as np
 
 
 def build_index(embeddings: np.ndarray) -> faiss.Index:
-    # Embeddings are L2-normalized (see embedder.py), so inner product == cosine
-    # similarity, and higher scores mean more relevant (unlike raw L2 distance).
+    
     index = faiss.IndexFlatIP(embeddings.shape[1])
     index.add(np.asarray(embeddings, dtype="float32"))
     return index

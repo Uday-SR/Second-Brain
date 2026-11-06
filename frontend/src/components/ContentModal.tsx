@@ -7,10 +7,6 @@ interface ContentModalProps {
   onCreated?: () => void;
 }
 
-// Mirrors ai_service/app/loaders/__init__.py:detect_type — a best-effort guess
-// so the "Type" field can default sensibly. The AI service re-detects from the
-// real response headers/bytes before indexing, so a wrong guess here just means
-// a wrong label, not a wrong pipeline.
 function guessType(link: string): string {
   try {
     const url = new URL(link);
@@ -27,6 +23,13 @@ function guessType(link: string): string {
   } catch {
     return "url";
   }
+}
+
+function fileType(file: File | null): string {
+  const name = (file?.name || "").toLowerCase();
+  if (name.endsWith(".md") || name.endsWith(".markdown")) return "markdown";
+  if (name.endsWith(".txt")) return "text";
+  return "pdf";
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -56,7 +59,7 @@ export default function ContentModal({ onClose, onCreated }: ContentModalProps) 
 
   const navigate = useNavigate();
 
-  const detectedType = mode === "link" ? guessType(link) : "pdf"; // upload types added as more loaders ship
+  const detectedType = mode === "link" ? guessType(link) : fileType(file);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +79,7 @@ export default function ContentModal({ onClose, onCreated }: ContentModalProps) 
 
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/intro");
+      navigate("/");
       return;
     }
 
@@ -84,9 +87,7 @@ export default function ContentModal({ onClose, onCreated }: ContentModalProps) 
     setSubmitting(true);
 
     try {
-      // File uploads don't have a URL yet — the file itself is the content, so
-      // `link` is left for the backend to fill in once the AI service returns
-      // where it stored the upload. For now we send a placeholder marker.
+    
       const res = await backend.post("/content/", {
         title,
         link: mode === "link" ? link : `upload://${file!.name}`,
@@ -122,8 +123,8 @@ export default function ContentModal({ onClose, onCreated }: ContentModalProps) 
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-[9999]">
-      <div className="bg-white text-black rounded-2xl shadow-2xl w-[90%] max-w-md p-6 relative animate-fadeIn">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-md">
+      <div className="bg-white text-black rounded-2xl shadow-2xl w-[92%] max-w-md max-h-[92vh] overflow-y-auto p-5 sm:p-6 relative animate-fadeIn">
         <button onClick={onClose} className="absolute top-2 right-3 text-gray-500 hover:text-black">
           ✕
         </button>

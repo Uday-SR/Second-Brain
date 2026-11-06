@@ -1,4 +1,3 @@
-"""Verify the same JWT the Node backend issues, so each user only sees their own data."""
 from __future__ import annotations
 
 import jwt

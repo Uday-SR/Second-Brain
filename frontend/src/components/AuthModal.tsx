@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { backend } from "../lib/api";
+import { backend, setStoredUser } from "../lib/api";
 
 interface AuthResponse {
   msg: string;
   token?: string;
+  user?: { id?: number; username: string; email: string };
 }
 
 interface AuthModalProps {
@@ -29,8 +30,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
     setMessage("");
 
     try {
-      // Uses the shared `backend` client from lib/api.ts instead of a
-      // hardcoded URL, so this stays in sync with signin and every other call.
+    
       const res = await backend.post<AuthResponse>("/user/signup", {
         username,
         email,
@@ -39,13 +39,13 @@ export default function AuthModal({ onClose }: AuthModalProps) {
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
+        setStoredUser(res.data.user ?? { username, email });
         navigate("/home");
       } else {
         setMessage(res.data.msg);
       }
     } catch (error: any) {
-      // The old version assumed error.response.data.error always exists,
-      // which throws a second error (and shows nothing) on a network failure.
+
       setMessage(error?.response?.data?.error || "Something went wrong signing up. Please try again.");
     } finally {
       setSubmitting(false);
@@ -65,6 +65,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
+        setStoredUser(res.data.user ?? { username: email.split("@")[0], email });
         navigate("/home");
       } else {
         setMessage("Sign in failed. Please try again.");
@@ -77,8 +78,8 @@ export default function AuthModal({ onClose }: AuthModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md z-[9999]">
-      <div className="bg-white text-black rounded-2xl shadow-2xl w-[90%] max-w-md p-6 relative animate-fadeIn">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-md">
+      <div className="bg-white text-black rounded-2xl shadow-2xl w-[92%] max-w-md max-h-[92vh] overflow-y-auto p-5 sm:p-6 relative animate-fadeIn">
         <button onClick={onClose} className="absolute top-2 right-3 text-gray-500 hover:text-black">
           ✕
         </button>
