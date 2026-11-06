@@ -1,11 +1,8 @@
 from __future__ import annotations
-
 from dataclasses import dataclass, field
-
 
 class LoaderError(Exception):
     """A problem with the source itself. The message is safe to show to the user."""
-
 
 @dataclass
 class Segment:
@@ -13,7 +10,6 @@ class Segment:
 
     text: str
     location: str | None = None
-
 
 @dataclass
 class Document:
